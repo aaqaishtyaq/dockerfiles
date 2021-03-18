@@ -6,8 +6,7 @@
 # 	--name gitserver \
 # 	aaqaishtyaq/gitserver
 
-FROM alpine:latest
-LABEL maintainer "Aaqa Ishtyaq <aaqaishtyaq@gmail.com>"
+FROM aaqaishtyaq/base-alpine:latest
 
 ENV HOME /root
 
