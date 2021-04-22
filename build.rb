@@ -1,4 +1,5 @@
-#/usr/bin/ruby
+#!/usr/bin/ruby
+require 'optparse'
 
 module Constants
   ORGANISATION = 'ghcr.io'
@@ -7,36 +8,80 @@ module Constants
 end
 
 module Builder
-  module Build
-    class << self
-      include Constants
+  class Service
+    include Constants
 
-      def input
-        puts "Which image to build: "
-        input = gets.strip
-        docker_build(input)
+    def initialize(args)
+      @args = args
+      @name = "#{REPOSITORY}/#{@args[:image]}"
+      @dir = @args[:image].split('-').join('/')
+      @tag = @args[:tag]
+      @image = "#{@name}:#{@tag}"
+    end
+
+    def can_push?
+      @args[:push] ? true : false
+    end
+
+    def build_container_imager
+      build_command = [
+        "docker",
+        "build",
+        "--rm",
+        "--force-rm",
+        "-t",
+        "#{@image}",
+        "#{@dir}"
+      ].join(' ')
+
+      puts "Building Image #{@name} in Directory: #{@dir}"
+      exec("#{build_command}")
+    end
+
+    def push_container_imager
+      push_command = [
+        "docker",
+        "push",
+        "#{@image}"
+      ].join(' ')
+
+      puts "Pushing Image #{@image} to #{REPOSITORY}"
+      exec("#{push_command}")
+    end
+  end
+
+  class Client
+    def initialize
+      args = {}
+      OptionParser.new do |opts|
+        opts.on("-i", "--image IMAGE", "Image name")
+        opts.on("-t", "--tag TAG", "Tag of the image")
+        opts.on("-p", "--push", "Push the image")
+
+      end.parse!(into: args)
+
+      unless args[:image] and args[:tag]
+        raise StandardError.new "Oops! No Image or Tag Provided"
       end
 
-      private
+      @service = Builder::Service.new(args)
+    end
 
-      def docker_build suite
-        image_name = "#{REPOSITORY}/#{suite}"
-        dir = suite.split('-').join('/')
-        build_command = [
-          "docker",
-          "build",
-          "--rm",
-          "--force-rm",
-          "-t",
-          "#{image_name}",
-          "#{dir}"
-        ].join(' ')
+    def build
+      @service.build_container_imager
+    end
 
-        puts "Building Image #{image_name} in Directory: #{dir}"
-        exec("#{build_command}")
-      end
+    def push
+      @service.can_push? &&
+        @service.push_container_imager
+    end
+
+    def build_and_push
+      build
+      push
     end
   end
 end
 
-Builder::Build.input
+builder = Builder::Client.new
+builder.build_and_push
