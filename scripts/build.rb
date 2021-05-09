@@ -14,7 +14,7 @@ module Builder
     def initialize(args)
       @args = args
       @name = "#{REPOSITORY}/#{@args[:image]}"
-      @dir = @args[:image].split('-').join('/')
+      @dir = "dockerfiles/#{@args[:image].split('-').join('/')}"
       @tag = @args[:tag]
       @image = "#{@name}:#{@tag}"
     end
