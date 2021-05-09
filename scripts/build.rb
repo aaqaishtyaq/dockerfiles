@@ -23,7 +23,7 @@ module Builder
       @args[:push] ? true : false
     end
 
-    def build_container_imager
+    def build_container_image
       build_command = [
         "docker",
         "build",
@@ -35,7 +35,7 @@ module Builder
       ].join(' ')
 
       puts "Building Image #{@name} in Directory: #{@dir}"
-      exec("#{build_command}")
+      system("#{build_command}")
     end
 
     def push_container_imager
@@ -46,7 +46,7 @@ module Builder
       ].join(' ')
 
       puts "Pushing Image #{@image} to #{REPOSITORY}"
-      exec("#{push_command}")
+      system("#{push_command}")
     end
   end
 
@@ -68,7 +68,7 @@ module Builder
     end
 
     def build
-      @service.build_container_imager
+      @service.build_container_image
     end
 
     def push
@@ -77,8 +77,7 @@ module Builder
     end
 
     def build_and_push
-      build
-      push
+      build && push
     end
   end
 end
