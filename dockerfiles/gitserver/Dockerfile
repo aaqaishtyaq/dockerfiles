@@ -6,7 +6,7 @@
 # 	--name gitserver \
 # 	aaqaishtyaq/gitserver
 
-FROM aaqaishtyaq/base-alpine:latest
+FROM ghcr.io/aaqaishtyaq/base-alpine:1c32996
 
 ENV HOME /root
 

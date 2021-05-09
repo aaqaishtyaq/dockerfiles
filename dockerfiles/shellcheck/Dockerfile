@@ -1,4 +1,4 @@
-FROM aaqaishtyaq/base-debian:latest
+FROM ghcr.io/aaqaishtyaq/base-debian:1c32996
 
 RUN apt-get update && apt-get install -y \
     file \
