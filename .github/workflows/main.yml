@@ -1,12 +1,12 @@
 on:
   push:
-    branches:
-      - dev
     tags:
       - '*'
 
-name: Build and Push Docker Images
+env:
+  GITHUB_REF: ${{ github.ref }}
 
+name: Build and Push Docker Images
 jobs:
   build-push:
     name: Ubuntu
@@ -16,12 +16,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Login
+        id: docker_login
+        run: |
+          echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ secrets.GHCR_USER }} --password-stdin
 
-      - name: Set IMAGE_RELEASE_TAG
-        id: get_tag
+      - name: Build and Push
+        id: docker_build_push
         run: |
           GIT_TAG=${GITHUB_REF#refs/tags/}
-          IMAGE_RELEASE_TAG=$(echo $GIT_TAG | sed 's/^[^-]*-//g')
-          echo ::set-output name=IMAGE_RELEASE_TAG::$IMAGE_RELEASE_TAG
+          IMAGE_NAME=$(echo $GIT_TAG | sed 's/^[^-]*-//g')
+          IMAGE_TAG=$(echo $GIT_TAG | sed 's/^[^#]*#//g' | sed 's/--*/\n/g' | head -1)
+          ruby scripts/build.rb -t ${IMAGE_TAG} -i ${IMAGE_NAME} --push
