@@ -60,6 +60,8 @@ module Builder
 
       end.parse!(into: args)
 
+      args[:tag] ||= 'latest'
+
       unless args[:image] and args[:tag]
         raise StandardError.new "Oops! No Image or Tag Provided"
       end
