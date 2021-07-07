@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM #{INCLUDE:base/debian}
 LABEL org.opencontainers.image.source https://github.com/aaqaishtyaq/dockerfiles
 
 RUN apt update && \
