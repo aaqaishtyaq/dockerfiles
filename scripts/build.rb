@@ -5,6 +5,7 @@ module Constants
   ORGANISATION = 'ghcr.io'
   USER = 'aaqaishtyaq'
   REPOSITORY = "#{ORGANISATION}/#{USER}"
+  LATEST = 'latest'
 end
 
 module Builder
@@ -17,6 +18,7 @@ module Builder
       @dir = "dockerfiles/#{@args[:image].split('-').join('/')}"
       @tag = @args[:tag]
       @image = "#{@name}:#{@tag}"
+      @image_latest_tag = "#{@name}:#{LATEST}"
     end
 
     def can_push?
@@ -39,14 +41,16 @@ module Builder
     end
 
     def push_container_imager
-      push_command = [
-        "docker",
-        "push",
-        "#{@image}"
-      ].join(' ')
-
-      puts "Pushing Image #{@image} to #{REPOSITORY}"
-      system("#{push_command}")
+      # Tag the image as latest and push
+      [@image, @image_latest_tag].map do |image|
+        push_command = [
+          "docker",
+          "push",
+          "#{image}"
+        ].join(' ')
+        puts "Pushing Image #{image} to #{REPOSITORY}"
+        system("#{push_command}")
+      end
     end
   end
 
