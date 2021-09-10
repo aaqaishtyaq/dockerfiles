@@ -1,0 +1,6 @@
+#!/bin/bash
+tmux_attach() {
+  tmux new -A -s WORKSPACE
+}
+
+tmux_attach
