@@ -1,0 +1,10 @@
+#!/bin/bash
+# Run ttyd
+# https://github.com/tsl0922/ttyd
+ttyd \
+  -P 10 \
+  -t disableLeaveAlert=true \
+  -t disableResizeOverlay=true \
+  -t 'theme={"foreground":"white","background":"black"}' \
+  -t cursorBlink=true \
+  tmux_attach
