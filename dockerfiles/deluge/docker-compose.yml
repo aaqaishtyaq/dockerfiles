@@ -1,0 +1,19 @@
+---
+version: "2.1"
+services:
+  deluge:
+    image: ghcr.io/linuxserver/deluge
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - /media/aaqa/sandisk/AppData/deluge/config:/config
+      - /media/aaqa/sandisk/Downloads:/downloads
+    ports:
+      - 8112:8112
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
