@@ -52,6 +52,17 @@ module Builder
         system("#{push_command}")
       end
     end
+
+    def tag_image_latest_tag
+      tag_command = [
+        "docker",
+        "tag",
+        "#{@image}",
+        "#{@image_latest_tag}"
+      ].join(' ')
+      puts "Tagging image to latest"
+      system("#{tag_command}")
+    end
   end
 
   class Client
@@ -74,7 +85,8 @@ module Builder
     end
 
     def build
-      @service.build_container_image
+      @service.build_container_image &&
+        @service.tag_image_latest_tag
     end
 
     def push

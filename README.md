@@ -21,3 +21,10 @@ Flags:
 ```console
 ./scripts/release <IMAGE_NAME>
 ```
+
+### In this repo
+
+* [cgit](./dockerfiles/cgit/)
+* [gitserver](./dockerfiles/gitserver)
+* [shellcheck](./dockerfiles/shellcheck)
+* [workspace](./dockerfiles/workspace)
