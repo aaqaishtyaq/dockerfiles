@@ -48,3 +48,4 @@ jobs:
           IMAGE_NAME=$(echo $GIT_TAG | sed 's/^[^-]*-//g')
           IMAGE_TAG=$(echo $GIT_TAG | sed 's/^[^#]*#//g' | sed 's/--*/\n/g' | head -1)
           rouster buildx --push -i ${IMAGE_NAME} -t ${IMAGE_TAG} dockerfiles
+          rouster buildx --push -i ${IMAGE_NAME} -t latest dockerfiles
