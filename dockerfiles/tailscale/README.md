@@ -5,7 +5,7 @@
 ```yaml
 version: '3'
 services:
-  cgit:
+  tailscaled:
     privileged: true
     network_mode: "host"
     restart: unless-stopped
