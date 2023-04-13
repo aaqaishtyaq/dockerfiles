@@ -1,22 +1,29 @@
 # Dockerfiles
 
-Various dockerfiles I use.
+Various Dockerfiles I use.
 
 ## How To
 
+### Dependency
+
+- [aaqaishtyaq/rouster](https://github.com/aaqaishtyaq/rouster)
+- [docker buildx](https://docs.docker.com/build/install-buildx/)
+
 ### Build the image locally
 
-```console
-./scripts/build.rb -i <IMAGE_NAME> -t <TAG> --push
+```bash
+GO111MODULE=on go install github.com/aaqaishtyaq/rouster@latest
+
+IMAGE_NAME="base-debian"
+IMAGE_TAG="latest"
+
+rouster buildx -i ${IMAGE_NAME} -t ${IMAGE_TAG} dockerfiles
+
+# build and push
+rouster buildx -p -i ${IMAGE_NAME} -t ${IMAGE_TAG} dockerfiles
 ```
 
-Flags:
-
-* `-i || --image`  `che-ubuntu`   Set the image name
-* `-t || --tag`    `1.0.0`        Set the image tag. Default is `latest`
-* `-p || --push`   `true/false`   Push the image to GH Container Registry. Default is `false`
-
-### Build the image using github action
+### Build the image using the Github action
 
 ```console
 ./scripts/release <IMAGE_NAME>
@@ -24,7 +31,12 @@ Flags:
 
 ### In this repo
 
+* [base-alpine](./dockerfiles/base/alpine/)
+* [base-debian](./dockerfiles/base/debian/)
+* [base-nixos](./dockerfiles/base/nixos/)
+* [base-ubuntu](./dockerfiles/base/ubuntu/)
 * [cgit](./dockerfiles/cgit/)
 * [gitserver](./dockerfiles/gitserver)
 * [shellcheck](./dockerfiles/shellcheck)
+* [tailscale](./dockerfiles/tailscale)
 * [workspace](./dockerfiles/workspace)
