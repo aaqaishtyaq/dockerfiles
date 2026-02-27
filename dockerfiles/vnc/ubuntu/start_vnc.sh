@@ -63,7 +63,7 @@ vncserver "${VNC_ARGS[@]}"
 NOVNC_PID=$!
 
 echo "VNC server: ${DISPLAY} (port ${VNC_PORT})"
-echo "noVNC URL: http://0.0.0.0:${NOVNC_PORT}/vnc.html"
+echo "noVNC URL: http://0.0.0.0:${NOVNC_PORT}/"
 
 if [ "$#" -gt 0 ]; then
     exec "$@"

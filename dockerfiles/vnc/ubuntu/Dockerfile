@@ -33,6 +33,7 @@ RUN apt-get update \
         xfce4-goodies \
         xfce4-terminal \
         xauth \
+    && ln -sf /usr/share/novnc/vnc.html /usr/share/novnc/index.html \
     && locale-gen en_US.UTF-8 \
     && if ! id -u user >/dev/null 2>&1; then useradd -m -s /bin/bash user; fi \
     && usermod -aG sudo user \

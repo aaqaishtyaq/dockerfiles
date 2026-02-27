@@ -25,7 +25,7 @@ docker run --rm -it \
 ## Access
 
 - VNC: `localhost:5901`
-- noVNC: `http://localhost:6080/vnc.html`
+- noVNC: `http://localhost:6080/`
 
 ## Optional environment variables
 
