@@ -39,4 +39,5 @@ rouster buildx -p -i ${IMAGE_NAME} -t ${IMAGE_TAG} dockerfiles
 * [gitserver](./dockerfiles/gitserver)
 * [shellcheck](./dockerfiles/shellcheck)
 * [tailscale](./dockerfiles/tailscale)
+* [vnc-ubuntu](./dockerfiles/vnc/ubuntu)
 * [workspace](./dockerfiles/workspace)
